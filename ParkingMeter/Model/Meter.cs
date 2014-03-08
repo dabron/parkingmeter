@@ -38,7 +38,9 @@ namespace ParkingMeter.Model
 
 		public void SetMaxAmount(DateTime now, decimal dollars)
 		{
-			throw new NotImplementedException();
+			AmountCharged = dollars;
+			MinutesPurchased = (double)(dollars / _minuteRate);
+			EndTime = now.AddMinutes(MinutesPurchased);
 		}
 
 		public void SetMaxTime(DateTime now, double minutes)
