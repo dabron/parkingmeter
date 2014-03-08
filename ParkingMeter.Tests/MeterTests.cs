@@ -8,19 +8,27 @@ namespace ParkingMeter.Tests
 	public class MeterTests
 	{
 		[TestMethod]
-		public void TestSetMaxDollars()
+		public void TestSetMaxAmount()
 		{
+			var now = new DateTime(2002, 6, 22, 3, 14, 0);
 			var meter = new Meter(TimeLimit.OneHour);
-			meter.SetMaxDollars(10m);
-			string output = meter.PrintTicket();
+			meter.SetMaxAmount(now, 10m);
+
+			Assert.AreEqual(new DateTime(2002, 6, 22, 3, 29, 0), meter.EndTime);
+			Assert.AreEqual(1.75m, meter.AmountCharged);
+			Assert.AreEqual(15d, meter.MinutesPurchased);
 		}
 
 		[TestMethod]
 		public void TestSetMaxTime()
 		{
+			var now = new DateTime(2002, 6, 22, 3, 14, 0);
 			var meter = new Meter(TimeLimit.OneHour);
-			meter.SetMaxTime(new TimeSpan(1, 0, 0));
-			string output = meter.PrintTicket();
+			meter.SetMaxTime(now, 60d);
+
+			Assert.AreEqual(new DateTime(2002, 6, 22, 3, 29, 0), meter.EndTime);
+			Assert.AreEqual(1.75m, meter.AmountCharged);
+			Assert.AreEqual(15d, meter.MinutesPurchased);
 		}
 	}
 }
