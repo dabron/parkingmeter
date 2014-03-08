@@ -52,6 +52,15 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MeterTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ParkingMeter\ParkingMeter.csproj">
+      <Project>{bfca747d-51e6-4013-8e05-0e5c9cc432d5}</Project>
+      <Name>ParkingMeter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
