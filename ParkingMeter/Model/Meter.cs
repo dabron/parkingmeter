@@ -4,23 +4,37 @@ namespace ParkingMeter.Model
 {
 	public class Meter
 	{
-		private const decimal StandardRate = 1.75m;
+		private const decimal StandardHourlyRate = 1.75m;
 		private readonly TimeLimit _timeLimit;
-		private readonly decimal _rate;
+		private readonly decimal _minuteRate;
 
 		private DateTime _endTime;
 		private decimal _amountCharged;
-		private decimal _minutesPurchased;
+		private double _minutesPurchased;
 
 		public Meter(TimeLimit timeLimit)
 		{
 			_timeLimit = timeLimit;
-			_rate = StandardRate;
+			_minuteRate = StandardHourlyRate / 60m;
 		}
 
-		public DateTime EndTime { get { return _endTime; } }
-		public decimal AmountCharged { get { return _amountCharged; } }
-		public decimal MinutesPurchased { get { return _minutesPurchased; } }
+		public DateTime EndTime
+		{
+			get { return _endTime; }
+			private set { _endTime = value; }
+		}
+
+		public decimal AmountCharged
+		{
+			get { return _amountCharged; }
+			private set { _amountCharged = Math.Round(value, 2); }
+		}
+
+		public double MinutesPurchased
+		{
+			get { return _minutesPurchased; }
+			private set { _minutesPurchased = value; }
+		}
 
 		public void SetMaxAmount(DateTime now, decimal dollars)
 		{
@@ -29,7 +43,9 @@ namespace ParkingMeter.Model
 
 		public void SetMaxTime(DateTime now, double minutes)
 		{
-			throw new NotImplementedException();
+			EndTime = now.AddMinutes(minutes);
+			AmountCharged = (decimal)minutes  * _minuteRate;
+			MinutesPurchased = minutes;
 		}
 
 		public string PrintTicket()
